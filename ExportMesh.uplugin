@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ExportMesh",
+	"Description": "export mesh to binary",
+	"Category": "Other",
+	"CreatedBy": "Jinzer",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ExportMesh",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
