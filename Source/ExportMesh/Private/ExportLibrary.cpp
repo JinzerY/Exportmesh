@@ -28,17 +28,16 @@ TSharedRef<FJsonObject> SaveRawMeshAsJsonObj(FRawMesh& RawMesh)
 	int32 VertexNum = RawMesh.VertexPositions.Num();
 	JObj->SetStringField(FString(TEXT("VertexNum")), FString::FromInt(VertexNum));
 
+	TArray<TSharedPtr<FJsonValue>> JvArray;
 	for (int32 pIndex = 0; pIndex < RawMesh.VertexPositions.Num(); pIndex++)
 	{
-		TArray<TSharedPtr<FJsonValue>> JvArray;
-
 		JvArray.Add(MakeShareable(new FJsonValueNumber(RawMesh.VertexPositions[pIndex].X)));
 		JvArray.Add(MakeShareable(new FJsonValueNumber(RawMesh.VertexPositions[pIndex].Y)));
 		JvArray.Add(MakeShareable(new FJsonValueNumber(RawMesh.VertexPositions[pIndex].Z)));
 
-		FString  FileName = FString(TEXT("Position")) + FString::FromInt(pIndex);
-		JObj->SetArrayField(FileName, JvArray);
 	}
+	FString  FileName = FString(TEXT("Vertices"));
+	JObj->SetArrayField(FileName, JvArray);
 
 	int32 IndexNum = RawMesh.WedgeIndices.Num();
 	JObj->SetStringField(FString(TEXT("IndexNum")), FString::FromInt(IndexNum));

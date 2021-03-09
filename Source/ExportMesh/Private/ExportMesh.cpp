@@ -59,10 +59,9 @@ void FExportMeshModule::PluginButtonClicked()
 
 
 	//StaticMesh'/Engine/EngineMeshes/Cube.Cube'
-	//FString AssetPath = FString(TEXT("/Engine/EngineMeshes/Cube.Cube"));
-	//UStaticMesh* StaticMeshLoaded = LoadObject<UStaticMesh>(nullptr, *AssetPath);
-
-	//UExportLibrary::ExportStaticMesh(StaticMeshLoaded);
+	FString AssetPath = FString(TEXT("/Engine/EngineMeshes/Cube.Cube"));
+	UStaticMesh* StaticMeshLoaded = LoadObject<UStaticMesh>(nullptr, *AssetPath);
+	UExportLibrary::ExportStaticMesh(StaticMeshLoaded);
 	
 	UExportLibrary::ExportCameraInfo();
 	
