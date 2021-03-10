@@ -45,6 +45,7 @@ public class ExportMesh : ModuleRules
 				// ... add private dependencies that you statically link with here ...	
 				"RawMesh",
 				"Json",
+				"JsonUtilities",
 			}
 			);
 		

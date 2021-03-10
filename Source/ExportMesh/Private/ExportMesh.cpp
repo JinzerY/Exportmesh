@@ -5,7 +5,7 @@
 #include "ExportMeshCommands.h"
 #include "Misc/MessageDialog.h"
 #include "ToolMenus.h"
-
+#include "Kismet/BlueprintPathsLibrary.h"
 #include "ExportLibrary.h"
 
 static const FName ExportMeshTabName("ExportMesh");
@@ -55,15 +55,12 @@ void FExportMeshModule::PluginButtonClicked()
 	//				   );
 	//FMessageDialog::Open(EAppMsgType::Ok, DialogText);
 
-	//StaticMesh'/Engine/EngineMeshes/SM_MatPreviewMesh_01.SM_MatPreviewMesh_01'
-
-
-	//StaticMesh'/Engine/EngineMeshes/Cube.Cube'
 	FString AssetPath = FString(TEXT("/Engine/EngineMeshes/Cube.Cube"));
-	UStaticMesh* StaticMeshLoaded = LoadObject<UStaticMesh>(nullptr, *AssetPath);
-	UExportLibrary::ExportStaticMesh(StaticMeshLoaded);
-	
-	UExportLibrary::ExportCameraInfo();
+	FString MeshSavepath = UBlueprintPathsLibrary::ProjectSavedDir() +  FString(TEXT("/Model/ModelSave.json"));
+	UExportLibrary::ExportStaticMesh(AssetPath, MeshSavepath);
+
+	FString Savepath = UBlueprintPathsLibrary::ProjectSavedDir() + FString(TEXT("/Model/CameraSave.json"));
+	UExportLibrary::ExportCameraInfo(Savepath);
 	
 }
 
