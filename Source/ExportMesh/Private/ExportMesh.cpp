@@ -54,10 +54,10 @@ void FExportMeshModule::PluginButtonClicked()
 	//						FText::FromString(TEXT("ExportMesh.cpp"))
 	//				   );
 	//FMessageDialog::Open(EAppMsgType::Ok, DialogText);
-
-	FString AssetPath = FString(TEXT("/Engine/EngineMeshes/Cube.Cube"));
-	FString MeshSavepath = UBlueprintPathsLibrary::ProjectSavedDir() +  FString(TEXT("/Model/ModelSave.json"));
-	UExportLibrary::ExportStaticMesh(AssetPath, MeshSavepath);
+	//StaticMesh'/Engine/EngineMeshes/SM_MatPreviewMesh_01.SM_MatPreviewMesh_01'
+	FString AssetPath = FString(TEXT("/Engine/EngineMeshes/SM_MatPreviewMesh_01.SM_MatPreviewMesh_01"));
+	FString MeshSavepath = UBlueprintPathsLibrary::ProjectSavedDir() +  FString(TEXT("/Model/ModelSave.Bin"));
+	UExportLibrary::ExportStaticMesh(AssetPath, MeshSavepath, false);
 
 	FString Savepath = UBlueprintPathsLibrary::ProjectSavedDir() + FString(TEXT("/Model/CameraSave.json"));
 	UExportLibrary::ExportCameraInfo(Savepath);

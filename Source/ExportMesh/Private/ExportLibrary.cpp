@@ -62,6 +62,18 @@ FExportData* SaveMeshLODResourceAsExportData(FStaticMeshLODResources& LODResourc
 		FVector Pos = LODResource.VertexBuffers.PositionVertexBuffer.VertexPosition(VIndex);
 		FExpotMeshVertex Vertex;
 		Vertex.Position = Pos;
+		if (LODResource.VertexBuffers.StaticMeshVertexBuffer.GetNumTexCoords() > 0)
+		{
+			Vertex.Uv = LODResource.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(VIndex, 0);
+		}
+		
+		//calc normal
+		FVector4 TagentX = LODResource.VertexBuffers.StaticMeshVertexBuffer.VertexTangentX(VIndex);
+		FVector4 TagentZ = LODResource.VertexBuffers.StaticMeshVertexBuffer.VertexTangentZ(VIndex);
+		FVector NormalTemp = FVector::CrossProduct(FVector(TagentX.X, TagentX.Y, TagentX.Z), FVector(TagentZ.X, TagentZ.Y, TagentZ.Z));
+		NormalTemp.Normalize();
+		Vertex.Normal = NormalTemp;
+
 		ExportData->Vertices.Add(Vertex);
 	}
 
@@ -78,22 +90,31 @@ FExportData* SaveMeshLODResourceAsExportData(FStaticMeshLODResources& LODResourc
 void ExportMeshDataToBinary(const FExportData* JsonObj, FString SavePath)
 {
 	//export to binary
-	std::ofstream foutBinary(TCHAR_TO_ANSI(*SavePath), std::ofstream::binary);
-	int32 VertexNum = JsonObj->VertexNum;
+	std::ofstream foutBinary(TCHAR_TO_ANSI(*SavePath), std::ios::out | std::ios::binary);
+	int VertexNum = JsonObj->VertexNum;
 
-	foutBinary << VertexNum;
+	foutBinary.write(reinterpret_cast<const char*>(&VertexNum), sizeof(int));
 	for (size_t VIndex = 0; VIndex < VertexNum; VIndex++)
 	{
-		foutBinary << JsonObj->Vertices[VIndex].Position.X;
-		foutBinary << JsonObj->Vertices[VIndex].Position.Y;
-		foutBinary << JsonObj->Vertices[VIndex].Position.Z;
+		//write position
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Position.X), sizeof(float));
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Position.Y), sizeof(float));
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Position.Z), sizeof(float));
+		//write normal
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Normal.X), sizeof(float));
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Normal.Y), sizeof(float));
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Normal.Z), sizeof(float));
+
+		//write uv
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Uv.X), sizeof(float));
+		foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Vertices[VIndex].Uv.Y), sizeof(float));
 	}
 
-	int32 IndexNum = JsonObj->IndexNum;
-	foutBinary << IndexNum;
+	int IndexNum = JsonObj->IndexNum;
+	foutBinary.write(reinterpret_cast<const char*>(&IndexNum), sizeof(int));
 	{
 		for (size_t IIndex = 0; IIndex < IndexNum; IIndex++)
-			foutBinary << JsonObj->Indices[IIndex];
+			foutBinary.write(reinterpret_cast<const char*>(&JsonObj->Indices[IIndex]), sizeof(int));
 	}
 
 	foutBinary.close();

@@ -11,6 +11,11 @@ struct FExpotMeshVertex
 	UPROPERTY()
 	FVector Position;
 
+	UPROPERTY()
+	FVector Normal;
+
+	UPROPERTY()
+	FVector2D Uv;
 };
 
 USTRUCT()
