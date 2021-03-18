@@ -68,9 +68,10 @@ FExportData* SaveMeshLODResourceAsExportData(FStaticMeshLODResources& LODResourc
 		}
 		
 		//calc normal
-		FVector4 TagentX = LODResource.VertexBuffers.StaticMeshVertexBuffer.VertexTangentX(VIndex);
+		//FVector4 TagentX = LODResource.VertexBuffers.StaticMeshVertexBuffer.VertexTangentX(VIndex);
 		FVector4 TagentZ = LODResource.VertexBuffers.StaticMeshVertexBuffer.VertexTangentZ(VIndex);
-		FVector NormalTemp = FVector::CrossProduct(FVector(TagentX.X, TagentX.Y, TagentX.Z), FVector(TagentZ.X, TagentZ.Y, TagentZ.Z));
+		//FVector NormalTemp = FVector::CrossProduct(FVector(TagentX.X, TagentX.Y, TagentX.Z), FVector(TagentZ.X, TagentZ.Y, TagentZ.Z));
+		FVector NormalTemp = FVector(TagentZ.X, TagentZ.Y, TagentZ.Z);
 		NormalTemp.Normalize();
 		Vertex.Normal = NormalTemp;
 
